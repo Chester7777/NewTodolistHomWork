@@ -14,31 +14,32 @@ function App() {
         {id: v1(), title: "Redux", isDone: false},
     ]
 
-    let task2Init: Array<TaskType> = [
-        {id: v1(), title: "Terminator", isDone: true},
-        {id: v1(), title: "XXX", isDone: false},
-        {id: v1(), title: "Ice", isDone: true},
-    ]
+    // let task2Init: Array<TaskType> = [
+    //     {id: v1(), title: "Terminator", isDone: true},
+    //     {id: v1(), title: "XXX", isDone: false},
+    //     {id: v1(), title: "Ice", isDone: true},
+    // ]
 
     let [tasks1, setTasks1] = useState<Array<TaskType>>(task1Init)
-    let [tasks2, setTasks2] = useState<Array<TaskType>>(task2Init)
+    // let [tasks2, setTasks2] = useState<Array<TaskType>>(task2Init)
 
-
+let addTask = (title: string) => {
+        let newTask = {id: v1(), title: title, isDone: false};
+        let newTasks = [newTask, ...tasks1];
+        setTasks1(newTasks);
+}
     const resultTasks1 = (id: string) => {
-
        let filteredTasks = tasks1.filter(t => t.id !== id);
         setTasks1(filteredTasks);
     }
 
-    const resultTasks2 = (id: string) => {
-
-        let filteredTasks = tasks2.filter(t => t.id !== id);
-        setTasks2(filteredTasks);
-    }
+    // const resultTasks2 = (id: string) => {
+    //
+    //     let filteredTasks = tasks2.filter(t => t.id !== id);
+    //     setTasks2(filteredTasks);
+    // }
 
    let [filterTask, setFilterTask] = useState<FilterValuesType>("all");
-
-
 
     const allFilter = (value: FilterValuesType) => {
         setFilterTask(value);
@@ -52,7 +53,6 @@ function App() {
                 taskForTodolist = tasks1.filter(t => t.isDone === false)
     }
 
-
     return (
         <div className="App">
             <Todolist
@@ -60,13 +60,14 @@ function App() {
                 title="What i  learn"
                 resultTasks={resultTasks1}
                 allFilter={allFilter}
+                addTask={addTask}
             />
-            <Todolist
-                tasks={tasks2}
-                title="What i  now"
-                resultTasks={resultTasks2}
-                allFilter={allFilter}
-            />
+            {/*<Todolist*/}
+            {/*    tasks={tasks2}*/}
+            {/*    title="What i  now"*/}
+            {/*    resultTasks={resultTasks2}*/}
+            {/*    allFilter={allFilter}*/}
+            {/*/>*/}
         </div>
     );
 }
