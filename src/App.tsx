@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {v1} from "uuid";
 import "./App.css";
 import Todolist, {TaskType} from "./Todolist";
+import AddItemForm from "./AddItemForm";
+import EditableSpan from "./EditableSpan";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -84,11 +86,19 @@ function App() {
         delete tasks1[id]
         setTasks1({...tasks1})
     }
+const addTodolist = (title: string) => {
+let newTodolistID = v1();
+    let newTodolist: TodolistType = {id: newTodolistID, title: title, filter: "all"};
+    setTodolists([newTodolist, ...todolists]);
+    setTasks1({...tasks1, [newTodolistID]: []})
 
+}
 
     return (
         <div className="App">
+            <AddItemForm addItem={addTodolist} />
             {todolists.map(tl => {
+                // <AddItemForm addItem={addTodolis} />
 
                 let allTodolistTasks = tasks1[tl.id]
                 let tasksForTodolist = allTodolistTasks;
@@ -113,15 +123,10 @@ function App() {
                     allFilter={allFilter}
                     filterTask={tl.filter}
                     removeTodolist={removeTodolist}
+                    onClick={EditableSpan}
                 />
             })}
 
-            {/*<Todolist*/}
-            {/*    tasks={tasks2}*/}
-            {/*    title="What i  now"*/}
-            {/*    resultTasks={resultTasks2}*/}
-            {/*    allFilter={allFilter}*/}
-            {/*/>*/}
         </div>
     );
 }
