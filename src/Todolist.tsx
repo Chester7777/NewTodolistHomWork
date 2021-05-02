@@ -1,7 +1,10 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "./App";
 import AddItemForm from "./AddItemForm";
 import {EditableSpanPropsType} from "./EditableSpan";
+import {Checkbox, FormControlLabel, IconButton, Button, ButtonGroup} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
+
 
 
 export type TaskType = {
@@ -22,8 +25,6 @@ export type TodolistType = {
     filterTask: FilterValuesType
     removeTodolist: (id: string) => void
     onClick: (props: EditableSpanPropsType) => void
-
-
 }
 
 const Todolist = (props: TodolistType) => {
@@ -44,38 +45,54 @@ const Todolist = (props: TodolistType) => {
                     <button onClick={onTodolistRemoveClickHandler}>x</button>
                 </h3>
                 <AddItemForm addItem={addTask} />
-                <ul>
+                <div>
                     {
                         props.tasks.map(t => {
                             const onClickHandler = () => props.resultTasks(t.id, props.id);
                             const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked, props.id);
 
-                            return <li className={t.isDone ? "is-done" : ""}>
-                                <input
-                                    type="checkbox"
-                                    onChange={onChangeHandler}
-                                    checked={t.isDone}/>
+                            return <div className={t.isDone ? "is-done" : ""}>
 
-                                <button onClick={onClickHandler}>x</button>
-                            </li>
+                                        <Checkbox
+                                            checked={t.isDone}
+                                            color="primary"
+                                            onChange={onChangeHandler}
+                                            name="checkedB"
+                                        />
+
+                                {/*// <input*/}
+                                {/*//     type="checkbox"*/}
+                                {/*//     onChange={onChangeHandler}*/}
+                                {/*//     checked={t.isDone}/>*/}
+
+                                <IconButton aria-label="delete">
+                                    <Delete onClick={onClickHandler}/>
+                                </IconButton>
+
+                            </div>
                         })
                     }
-                </ul>
+                </div>
                 <div>
 
-                    <button
-                        className={props.filterTask === "all" ? "active-filter" : ""}
+                    <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+                    <Button
+                        variant={props.filter === "all" ? "outlined" : "text"}
+                        // className={props.filterTask === "all" ? "primary" : "secondary"}
                         onClick={onAllClickHandler}>All
-                    </button>
-                    <button
-                        className={props.filterTask === "active" ? "active-filter" : ""}
+                    </Button>
+                    <Button
+                        variant={props.filter === "active" ? "outlined" : "text"}
+                        // className={props.filterTask === "active" ? "active-filter" : ""}
                         onClick={onActiveClickHandler}>Active
-                    </button>
+                    </Button>
 
-                    <button
-                        className={props.filterTask === "completed" ? "active-filter" : ""}
+                    <Button
+                        variant={props.filter === "completed" ? "outlined" : "text"}
+                        // className={props.filterTask === "completed" ? "active-filter" : ""}
                         onClick={onCompletedClickHandler}>Completed
-                    </button>
+                    </Button>
+                </ButtonGroup>
                 </div>
             </div>
         </div>
